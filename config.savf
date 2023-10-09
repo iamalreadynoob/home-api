@@ -1,1 +1,4 @@
 schedule-path=test/lectures.sch
+db-username=psikoai
+db-password=sweet-but-psycho
+db-url=jdbc:postgresql://localhost:5432/home-api

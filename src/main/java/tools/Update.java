@@ -3,6 +3,7 @@ package tools;
 import fileWorks.SAVF;
 import fileWorks.TextCommunication;
 import objects.Lecture;
+import objects.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,11 @@ public class Update
         }
 
         TextCommunication.write(path, lines);
+    }
+
+    public static void tasks(char mode, Object input)
+    {
+
     }
 
 }

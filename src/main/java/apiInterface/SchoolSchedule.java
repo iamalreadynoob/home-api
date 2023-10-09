@@ -114,6 +114,7 @@ public class SchoolSchedule
             {
                 lectures.remove(i);
                 flag = true;
+                Update.lectures(lectures);
                 break;
             }
         }
