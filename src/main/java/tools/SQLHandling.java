@@ -31,20 +31,48 @@ public class SQLHandling
 
             statement.executeUpdate();
 
-            connection.close();
             statement.close();
+            connection.close();
         }
         catch (SQLException e) {e.printStackTrace();}
     }
 
     protected static void editTaskInsideDB(String name, String type, String value)
     {
+        try
+        {
+            Connection connection = getDatabase();
+            String command = "UPDATE tasks SET " + type + " = ? WHERE name = ?";
+            PreparedStatement statement = connection.prepareStatement(command);
 
+            if (type.equals("deadline")) statement.setDate(1, getDate(value));
+            else statement.setString(1, value);
+
+            statement.setString(2, name);
+
+            statement.executeUpdate();
+
+            statement.close();
+            connection.close();
+        }
+        catch (SQLException e) {e.printStackTrace();}
     }
 
     protected static void deleteTaskInsideDB(String name)
     {
+        try
+        {
+            Connection connection = getDatabase();
+            String command = "DELETE FROM tasks WHERE name = ?";
+            PreparedStatement statement = connection.prepareStatement(command);
+            statement.setString(1, name);
 
+            statement.executeUpdate();
+
+            statement.close();
+            connection.close();
+        }
+        catch (SQLException e){e.printStackTrace();}
     }
 
     protected static Connection getDatabase()
