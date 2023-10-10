@@ -5,6 +5,7 @@ import fileWorks.TextCommunication;
 import objects.Lecture;
 import objects.Task;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,18 @@ public class Update
 
     public static void tasks(char mode, Object input)
     {
-
+        switch (mode)
+        {
+            case 'a' -> SQLHandling.addTaskToDB((Task) input);
+            case 'e' ->
+            {
+                String[] info = (String[]) input;
+                SQLHandling.editTaskInsideDB(info[0], info[1], info[2]);
+            }
+            case 'd' -> SQLHandling.deleteTaskInsideDB((String) input);
+        }
     }
+
+
 
 }

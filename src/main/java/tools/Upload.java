@@ -46,15 +46,9 @@ public class Upload
         ResultSet set = null;
         Connection connection = null;
 
-        SAVF savf = new SAVF("config.savf");
-        savf.scan();
-        String username = savf.getValue("db-username");
-        String password = savf.getValue("db-password");
-        String url = savf.getValue("db-url");
-
         try
         {
-            connection = DriverManager.getConnection(url, username, password);
+            connection = SQLHandling.getDatabase();
             statement = connection.createStatement();
             set = statement.executeQuery("SELECT * FROM tasks");
 
@@ -69,6 +63,10 @@ public class Upload
 
                 tasks.add(task);
             }
+
+            connection.close();
+            statement.close();
+            set.close();
         }
         catch (SQLException e){e.printStackTrace();}
 
@@ -83,15 +81,9 @@ public class Upload
         ResultSet set = null;
         Connection connection = null;
 
-        SAVF savf = new SAVF("config.savf");
-        savf.scan();
-        String username = savf.getValue("db-username");
-        String password = savf.getValue("db-password");
-        String url = savf.getValue("db-url");
-
         try
         {
-            connection = DriverManager.getConnection(url, username, password);
+            connection = SQLHandling.getDatabase();
             statement = connection.createStatement();
             set = statement.executeQuery("SELECT * FROM statuses");
 
@@ -102,10 +94,23 @@ public class Upload
 
                 statuses.add(status);
             }
+
+            connection.close();
+            statement.close();
+            set.close();
         }
         catch (SQLException e){e.printStackTrace();}
 
         return statuses;
+    }
+
+    public static ArrayList<String> taskNames(List<Task> tasks)
+    {
+        ArrayList<String> names = new ArrayList<>();
+
+        for (Task t: tasks) names.add(t.getName());
+
+        return names;
     }
 
 }

@@ -7,6 +7,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import objects.Status;
 import objects.Task;
+import tools.Update;
 import tools.Upload;
 
 import java.sql.*;
@@ -18,6 +19,7 @@ public class ToDo
 {
 
     private List<Task> tasks;
+    private ArrayList<String> taskNames;
     private List<Status> statuses;
 
     @PostConstruct
@@ -25,6 +27,7 @@ public class ToDo
     {
         tasks = Upload.tasks();
         statuses = Upload.statuses();
+        taskNames = Upload.taskNames(tasks);
     }
 
     @GET
@@ -60,13 +63,14 @@ public class ToDo
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addTask(Task task)
     {
-        //TODO: check that the name is unique or not
-        if (task != null)
+        if (task != null && !taskNames.contains(task.getName()))
         {
             tasks.add(task);
-            return Response.ok(tasks).build();
+            taskNames.add(task.getName());
 
-            //TODO: Update database
+            Update.tasks('a', task);
+
+            return Response.ok(tasks).build();
         }
         else return Response.status(Response.Status.BAD_REQUEST).build();
     }
@@ -87,19 +91,26 @@ public class ToDo
                 {
                     flag = true;
 
-                    if (type.equals("name")) t.setName(value);
+                    if (type.equals("name") && !taskNames.contains(value))
+                    {
+                        t.setName(value);
+                        taskNames.remove(name);
+                        taskNames.add(value);
+                    }
                     else if (type.equals("task")) t.setTask(value);
                     else if (type.equals("deadline")) t.setDeadline(value);
                     else if (type.equals("status")) t.setStatus(value);
                     else if (type.equals("tag")) t.setTag(value);
                     else t.setBy(value);
 
+                    String[] info = {name, type, value};
+
+                    Update.tasks('e', info);
+
                     break;
                 }
             }
         }
-
-        //TODO: Update db
 
         if (flag) return Response.ok(tasks).build();
         else return Response.status(Response.Status.BAD_REQUEST).build();
@@ -118,6 +129,9 @@ public class ToDo
             {
                 tasks.remove(i);
                 flag = true;
+
+                Update.tasks('d', name);
+
                 break;
             }
         }
