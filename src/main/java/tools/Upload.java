@@ -113,4 +113,14 @@ public class Upload
         return names;
     }
 
+    public static ArrayList<String> parseCommand(String command)
+    {
+        String[] raw = command.split(" ");
+
+        ArrayList<String> args = new ArrayList<>();
+        for (String s: raw) if (!s.isEmpty() && !s.isBlank()) args.add(s);
+
+        return args;
+    }
+
 }
