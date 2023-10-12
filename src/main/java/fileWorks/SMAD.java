@@ -55,7 +55,64 @@ public class SMAD
 
         for (String blName: blockNames)
         {
+            ArrayList<String> setBlock = setBlocks.get(blName);
+            BlockSMAD bl = null;
 
+            if (setBlock.get(0).contains("="))
+            {
+                int index = setBlock.get(0).indexOf("=");
+                boolean flag = true;
+
+                if (setBlock.get(0).charAt(index+1) == '{') flag = false;
+
+                if (flag) bl = new BlockSMAD(setBlock.get(0).substring(index+1));
+                else
+                {
+                    Map<String, String> valueSet = new HashMap<>();
+
+                    int openBracketsIndex = setBlock.get(0).indexOf("{");
+                    int closeBracketsIndex = setBlock.get(0).lastIndexOf("}");
+
+                    String rawTagged = setBlock.get(0).substring(openBracketsIndex+1, closeBracketsIndex);
+                    String[] splittedRawTagged = rawTagged.split(",");
+                    for (String s: splittedRawTagged)
+                    {
+                        int separator = s.indexOf(":");
+                        valueSet.put(s.substring(0, separator), s.substring(separator+1));
+                    }
+
+                    bl = new BlockSMAD(valueSet);
+                }
+            }
+            else
+            {
+                int bLoc = 0;
+
+                ArrayList<ArrayList<String>> objects = new ArrayList<>();
+
+                while (bLoc < setBlock.size())
+                {
+                    if (setBlock.get(bLoc).startsWith("@"))
+                    {
+                        ArrayList<String> obj = new ArrayList<>();
+
+                        while (bLoc < setBlock.size() && !setBlock.get(bLoc).startsWith("@"))
+                        {
+                            if (!setBlock.get(bLoc).isBlank() && !setBlock.get(bLoc).isEmpty())
+                                obj.add(setBlock.get(bLoc));
+
+                            bLoc++;
+                        }
+
+                        objects.add(obj);
+                    }
+                    else bLoc++;
+                }
+
+
+            }
+
+            blocks.add(bl);
         }
 
         return blocks;

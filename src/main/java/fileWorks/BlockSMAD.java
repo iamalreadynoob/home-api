@@ -15,8 +15,8 @@ public class BlockSMAD
     private Map<String, String> valueSet;
 
     //for type 2
-    private Map<String, ObjectTypes> objectTypes;
     private Map<String, String> plainValues;
+    private Map<String, Map<String, String>> plainTaggedValues;
     private Map<String, Map<String, String>> simpleValues;
     private Map<String, Map<String, ArrayList<String>>> listValues;
     private Map<String, Map<String, Map<String, String>>> taggedValues;
@@ -33,11 +33,11 @@ public class BlockSMAD
         this.valueSet = valueSet;
     }
 
-    public BlockSMAD(Map<String, ObjectTypes> objectTypes, Map<String, String> plainValues, Map<String, Map<String, String>> simpleValues, Map<String, Map<String, ArrayList<String>>> listValues, Map<String, Map<String, Map<String, String>>> taggedValues)
+    public BlockSMAD(Map<String, String> plainValues, Map<String, Map<String, String>> plainTaggedValues, Map<String, Map<String, String>> simpleValues, Map<String, Map<String, ArrayList<String>>> listValues, Map<String, Map<String, Map<String, String>>> taggedValues)
     {
         type = BlockTypes.TYPE_2;
-        this.objectTypes = objectTypes;
         this.plainValues = plainValues;
+        this.plainTaggedValues = plainTaggedValues;
         this.simpleValues = simpleValues;
         this.listValues = listValues;
         this.taggedValues = taggedValues;
@@ -50,10 +50,5 @@ public class BlockSMAD
     public enum BlockTypes
     {
         TYPE_0, TYPE_1, TYPE_2
-    }
-
-    public enum ObjectTypes
-    {
-        PLAIN, SIMPLE, LIST, TAGGED
     }
 }
