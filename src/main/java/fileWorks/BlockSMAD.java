@@ -15,6 +15,7 @@ public class BlockSMAD
     private Map<String, String> valueSet;
 
     //for type 2
+    private ArrayList<String> objectNames;
     private Map<String, String> plainValues;
     private Map<String, Map<String, String>> plainTaggedValues;
     private Map<String, Map<String, String>> simpleValues;
@@ -33,9 +34,10 @@ public class BlockSMAD
         this.valueSet = valueSet;
     }
 
-    public BlockSMAD(Map<String, String> plainValues, Map<String, Map<String, String>> plainTaggedValues, Map<String, Map<String, String>> simpleValues, Map<String, Map<String, ArrayList<String>>> listValues, Map<String, Map<String, Map<String, String>>> taggedValues)
+    public BlockSMAD(ArrayList<String> objectNames, Map<String, String> plainValues, Map<String, Map<String, String>> plainTaggedValues, Map<String, Map<String, String>> simpleValues, Map<String, Map<String, ArrayList<String>>> listValues, Map<String, Map<String, Map<String, String>>> taggedValues)
     {
         type = BlockTypes.TYPE_2;
+        this.objectNames = objectNames;
         this.plainValues = plainValues;
         this.plainTaggedValues = plainTaggedValues;
         this.simpleValues = simpleValues;
