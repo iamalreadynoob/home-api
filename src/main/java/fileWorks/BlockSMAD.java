@@ -88,7 +88,11 @@ public class BlockSMAD
 
     public void set(TypeTwoLocations location, Object data)
     {
+        switch (location)
+        {
+            case LIST_VALUES:
 
+        }
     }
 
     public void append(String value)
